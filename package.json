@@ -1,0 +1,29 @@
+{
+  "name": "scripts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node ./index.ts"
+  },
+  "keywords": [],
+  "author": "sendra",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^16.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "eslint": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "2.4.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2"
+  },
+  "dependencies": {
+    "@aave/contract-helpers": "0.30.1-923789b95b2f39338bd14bd9a1c22acd075fdb5a.0+923789b",
+    "ethers": "^5.3.1",
+    "bignumber.js": "^9.0.1",
+    "env-cmd": "^10.1.0",
+    "reflect-metadata": "^0.1.13"
+  }
+}

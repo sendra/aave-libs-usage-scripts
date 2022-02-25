@@ -34,10 +34,12 @@ const config = {
     chainId: 4,
   },
   arb: {
+    uiPoolDataProvider: '0xAc6D153BF94aFBdC296e72163735B0f94581F736',
     uiIncentiveDataProviderAddress:
       '0x2fe91f5ab0bc5Aad0995Ea78d314B033988003De',
-    lendingPoolAddressProvider: '0x9AB5EC42fC6A12b1A8D902Fd2f4Efae59982bfdb',
+    lendingPoolAddressProvider: '0x509B2506FbA1BD41765F6A82C7B0Dd4229191768',
     providerUrl: 'https://rinkeby.arbitrum.io/rpc',
+    chainId: 421611,
   },
   fuji: {
     uiIncentiveDataProviderAddress:
@@ -76,7 +78,7 @@ const callDataProvider = async () => {
     uiPoolDataProvider,
     chainId,
     lendingPoolAddressProvider,
-  } = config.rinkeby;
+  } = config.arb;
   const provider = new providers.StaticJsonRpcProvider(providerUrl);
 
   const instance = new UiPoolDataProvider({
@@ -89,74 +91,73 @@ const callDataProvider = async () => {
     await instance.getReservesData({
       lendingPoolAddressProvider,
     });
+  console.log(1);
+  console.log(2, reservesRaw[0].symbol); // fails here, anytime JS tries to access to reservesRaw it throws the formatting exception
   reservesRaw.forEach((reserve) => {
-    // const object = {
-    //   id: `${chainId}-${reserve.underlyingAsset}-${lendingPoolAddressProvider}`.toLowerCase(),
-    //   underlyingAsset: reserve.underlyingAsset.toLowerCase(),
-    //   name: reserve.name,
-    //   symbol: reserve.symbol,
-    //   decimals: reserve.decimals.toNumber(),
-    //   baseLTVasCollateral: reserve.baseLTVasCollateral.toString(),
-    //   reserveLiquidationThreshold:
-    //     reserve.reserveLiquidationThreshold.toString(),
-    //   reserveLiquidationBonus: reserve.reserveLiquidationBonus.toString(),
-    //   reserveFactor: reserve.reserveFactor.toString(),
-    //   usageAsCollateralEnabled: reserve.usageAsCollateralEnabled,
-    //   borrowingEnabled: reserve.borrowingEnabled,
-    //   stableBorrowRateEnabled: reserve.stableBorrowRateEnabled,
-    //   isActive: reserve.isActive,
-    //   isFrozen: reserve.isFrozen,
-    //   liquidityIndex: reserve.liquidityIndex.toString(),
-    //   variableBorrowIndex: reserve.variableBorrowIndex.toString(),
-    //   liquidityRate: reserve.liquidityRate.toString(),
-    //   variableBorrowRate: reserve.variableBorrowRate.toString(),
-    //   stableBorrowRate: reserve.stableBorrowRate.toString(),
-    //   lastUpdateTimestamp: reserve.lastUpdateTimestamp,
-    //   aTokenAddress: reserve.aTokenAddress.toString(),
-    //   stableDebtTokenAddress: reserve.stableDebtTokenAddress.toString(),
-    //   variableDebtTokenAddress: reserve.variableDebtTokenAddress.toString(),
-    //   interestRateStrategyAddress:
-    //     reserve.interestRateStrategyAddress.toString(),
-    //   availableLiquidity: reserve.availableLiquidity.toString(),
-    //   totalPrincipalStableDebt: reserve.totalPrincipalStableDebt.toString(),
-    //   averageStableRate: reserve.averageStableRate.toString(),
-    //   stableDebtLastUpdateTimestamp:
-    //     reserve.stableDebtLastUpdateTimestamp.toNumber(),
-    //   totalScaledVariableDebt: reserve.totalScaledVariableDebt.toString(),
-    //   priceInMarketReferenceCurrency:
-    //     reserve.priceInMarketReferenceCurrency.toString(),
-    //   priceOracle: reserve.priceOracle,
-    //   variableRateSlope1: reserve.variableRateSlope1.toString(),
-    //   variableRateSlope2: reserve.variableRateSlope2.toString(),
-    //   stableRateSlope1: reserve.stableRateSlope1.toString(),
-    //   stableRateSlope2: reserve.stableRateSlope2.toString(),
-    //   baseStableBorrowRate: reserve.baseStableBorrowRate.toString(),
-    //   baseVariableBorrowRate: reserve.baseVariableBorrowRate.toString(),
-    //   optimalUsageRatio: reserve.optimalUsageRatio.toString(),
-
-    //   isPaused: reserve.isPaused,
-    //   debtCeiling: reserve.debtCeiling.toString(),
-    //   eModeCategoryId: reserve.eModeCategoryId,
-    //   borrowCap: reserve.borrowCap.toString(),
-    //   supplyCap: reserve.supplyCap.toString(),
-    //   eModeLtv: reserve.eModeLtv,
-    //   eModeLiquidationThreshold: reserve.eModeLiquidationThreshold,
-    //   eModeLiquidationBonus: reserve.eModeLiquidationBonus,
-    //   eModePriceSource: reserve.eModePriceSource.toString(),
-    //   eModeLabel: reserve.eModeLabel.toString(),
-    //   borrowableInIsolation: reserve.borrowableInIsolation,
-    //   accruedToTreasury: reserve.accruedToTreasury.toString(),
-    //   unbacked: reserve.unbacked.toString(),
-    //   isolationModeTotalDebt: reserve.isolationModeTotalDebt.toString(),
-    //   debtCeilingDecimals: reserve.debtCeilingDecimals.toNumber(),
-    // };
     console.log(reserve.symbol);
-    if (reserve.symbol !== 'AAVE') {
-      console.log(reserve.eModeLabel);
-    }
-  });
+    console.log(reserve);
+    const object = {
+      id: `${chainId}-${reserve.underlyingAsset}-${lendingPoolAddressProvider}`.toLowerCase(),
+      underlyingAsset: reserve.underlyingAsset.toLowerCase(),
+      name: reserve.name,
+      symbol: reserve.symbol,
+      //decimals: reserve.decimals.toNumber(),
+      baseLTVasCollateral: reserve.baseLTVasCollateral.toString(),
+      reserveLiquidationThreshold:
+        reserve.reserveLiquidationThreshold.toString(),
+      reserveLiquidationBonus: reserve.reserveLiquidationBonus.toString(),
+      reserveFactor: reserve.reserveFactor.toString(),
+      usageAsCollateralEnabled: reserve.usageAsCollateralEnabled,
+      borrowingEnabled: reserve.borrowingEnabled,
+      stableBorrowRateEnabled: reserve.stableBorrowRateEnabled,
+      isActive: reserve.isActive,
+      isFrozen: reserve.isFrozen,
+      liquidityIndex: reserve.liquidityIndex.toString(),
+      variableBorrowIndex: reserve.variableBorrowIndex.toString(),
+      liquidityRate: reserve.liquidityRate.toString(),
+      variableBorrowRate: reserve.variableBorrowRate.toString(),
+      stableBorrowRate: reserve.stableBorrowRate.toString(),
+      lastUpdateTimestamp: reserve.lastUpdateTimestamp,
+      aTokenAddress: reserve.aTokenAddress.toString(),
+      stableDebtTokenAddress: reserve.stableDebtTokenAddress.toString(),
+      variableDebtTokenAddress: reserve.variableDebtTokenAddress.toString(),
+      interestRateStrategyAddress:
+        reserve.interestRateStrategyAddress.toString(),
+      availableLiquidity: reserve.availableLiquidity.toString(),
+      totalPrincipalStableDebt: reserve.totalPrincipalStableDebt.toString(),
+      averageStableRate: reserve.averageStableRate.toString(),
+      //stableDebtLastUpdateTimestamp:
+      //  reserve.stableDebtLastUpdateTimestamp.toNumber(),
+      totalScaledVariableDebt: reserve.totalScaledVariableDebt.toString(),
+      priceInMarketReferenceCurrency:
+        reserve.priceInMarketReferenceCurrency.toString(),
+      //priceOracle: reserve.priceOracle,
+      variableRateSlope1: reserve.variableRateSlope1.toString(),
+      variableRateSlope2: reserve.variableRateSlope2.toString(),
+      stableRateSlope1: reserve.stableRateSlope1.toString(),
+      stableRateSlope2: reserve.stableRateSlope2.toString(),
+      //baseStableBorrowRate: reserve.baseStableBorrowRate.toString(),
+      //baseVariableBorrowRate: reserve.baseVariableBorrowRate.toString(),
+      //optimalUsageRatio: reserve.optimalUsageRatio.toString(),
 
-  // console.log(data);
+      isPaused: reserve.isPaused,
+      debtCeiling: reserve.debtCeiling.toString(),
+      eModeCategoryId: reserve.eModeCategoryId,
+      borrowCap: reserve.borrowCap.toString(),
+      supplyCap: reserve.supplyCap.toString(),
+      eModeLtv: reserve.eModeLtv,
+      eModeLiquidationThreshold: reserve.eModeLiquidationThreshold,
+      eModeLiquidationBonus: reserve.eModeLiquidationBonus,
+      eModePriceSource: reserve.eModePriceSource.toString(),
+      eModeLabel: reserve.eModeLabel.toString(),
+      borrowableInIsolation: reserve.borrowableInIsolation,
+      accruedToTreasury: reserve.accruedToTreasury.toString(),
+      unbacked: reserve.unbacked.toString(),
+      isolationModeTotalDebt: reserve.isolationModeTotalDebt.toString(),
+      //debtCeilingDecimals: reserve.debtCeilingDecimals.toNumber(),
+    };
+    console.log(object);
+  });
 };
 
 const callWalletBalanceProvider = async () => {

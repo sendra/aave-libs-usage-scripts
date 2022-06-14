@@ -5,11 +5,12 @@ import {
   UiPoolDataProvider,
   UserReserveData,
   WalletBalanceProvider,
+  ERC20Service,
 } from '@aave/contract-helpers';
 
 const config = {
   mainnet: {
-    providerUrl: 'https://eth-mainnet.alchemyapi.io/v2/demo',
+    providerUrl: 'https://rpc.flashbots.net',
     walletBalanceProviderAddress: '0x8e8dad5409e0263a51c0ab5055da66be28cff922',
     lendingPoolAddressProvider: '0xB53C1a33016B2DC2fF3653530bfF1848a515c8c5',
     uiPoolDataProvider: '0xff115c660f57dcc19a933dbf5ba3677979adcaec',
@@ -134,10 +135,53 @@ const callWalletBalanceProvider = async () => {
   console.log('data', data);
 };
 
+const validateApproval = async () => {
+  const { providerUrl } = config.polygon;
+  const provider = new providers.StaticJsonRpcProvider(providerUrl);
+
+  const erc20Service = new ERC20Service(provider);
+  const erc20Contract = await erc20Service.getContractInstance(
+    '0x6d80113e533a2c0fe82eabd35f1875dcea89ea97',
+  );
+
+  // const allowance = await erc20Contract.allowance(
+  //   '0x4f86A75764710683DAC3833dF49c72de3ec65465',
+  //   '0xd0e8f168d297dfa0f3ee1711c538bcc0663320af',
+  // );
+
+  const tokenData = await erc20Service.getTokenData(
+    '0x625e7708f30ca75bfd92586e17077590c60eb4cd',
+  );
+  // isApproved({
+  //   token: '0x82e64f49ed5ec1bc6e43dad4fc8af9bb3a2312ee',
+  //   user: '0x4f86A75764710683DAC3833dF49c72de3ec65465',
+  //   spender: '0xd0e8f168d297dfa0f3ee1711c538bcc0663320af',
+  //   amount: '0.000008920376157489',
+  // });
+
+  console.log('allowance: ', tokenData);
+};
+
 // callIncentives()
 //   .then()
 //   .catch((error) => console.log(error));
 
-callUserDataProvider()
+const getStorageSlot = async (address: string, slot: string) => {
+  const { providerUrl } = config.mainnet;
+  const provider = new providers.StaticJsonRpcProvider(providerUrl);
+
+  const res = await provider.getStorageAt(address, slot);
+
+  console.log('res ===> ', res);
+};
+
+getStorageSlot(
+  '0x25F2226B597E8F9514B3F68F00f494cF4f286491',
+  '0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103',
+)
   .then()
-  .catch((error) => console.log(error));
+  .catch(console.log);
+
+// validateApproval()
+//   .then()
+//   .catch((error) => console.log(error));
